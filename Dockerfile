@@ -81,7 +81,7 @@ RUN wget https://www.openinfosecfoundation.org/download/suricata-5.0.3.tar.gz &&
 
 WORKDIR /opt/suricata-5.0.3
 
-RUN ./configure --prefix=/usr/ --sysconfdir=/etc/ --localstatedir=/var/ --enable-lua --enable-geoip --enable-profiling --enable-debug && make && make install-full
+RUN ./configure --prefix=/usr/ --sysconfdir=/etc/ --localstatedir=/var/ --enable-lua --enable-geoip --enable-profiling && make && make install-full
 
 RUN rm -rf /opt/suricata-5.0.3/
 
