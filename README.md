@@ -1,7 +1,9 @@
 # Suricata
 ---
 ![Docker Pulls](https://img.shields.io/docker/pulls/malinkinsa/suricata)
-Suricata Docker Image with enabled profiling and debug.
+
+Suricata Docker Image with enabled profiling.
+Packet profiling is convenient in case you would like to know how long packets take to be processed. It is a way to figure out why certain packets are being processed quicker than others, and this way a good tool for developing Suricata.
 
 ## Usage
 - Create volumes:
