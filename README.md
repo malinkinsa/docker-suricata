@@ -5,6 +5,9 @@
 Suricata Docker Image with enabled profiling.
 Packet profiling is convenient in case you would like to know how long packets take to be processed. It is a way to figure out why certain packets are being processed quicker than others, and this way a good tool for developing Suricata.
 
+## Supported tags
+```latest``` ```6.0.0``` ```5.0.3```
+
 ## Usage
 - Create volumes:
 ```
