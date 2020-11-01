@@ -32,11 +32,22 @@ docker run --rm -it \
 	malinkinsa/suricata:latest
 ```
 - Variables:
-    - CONFIG - any others command line options of [suricata](https://suricata.readthedocs.io/en/suricata-5.0.4/command-line-options.html); For example: ``` "-i eth0"``` or ```"-i eth0 -S <filename.rules>"```
+    - CONFIG - any others command line options of [suricata](https://suricata.readthedocs.io/en/latest/command-line-options.html); For example: ``` "-i eth0"``` or ```"-i eth0 -S <filename.rules>"```
 
+## Usage via docker-compose
+- Clone repo
+```
+git clone git@github.com:malinkinsa/docker-suricata.git
+cd docker-suricata/docker-compose/
+```
+- Configure command line options and tag in docker-compose.yml
+- Launch container
+```
+docker-compose up -d
+```
 ---
 ## To-Do
 ---
 
-- [ ] Add example with docker-compose;
+- [x] Add example with docker-compose;
 

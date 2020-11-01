@@ -1,0 +1,10 @@
+version: "3.3"
+services:
+
+  suricata:
+    image: malinkinsa/suricata:latest 
+    environment:
+      - CONFIG="-i enp2s0"
+    volumes:
+      - ./logs:/var/log/suricata
+    restart: unless-stopped
