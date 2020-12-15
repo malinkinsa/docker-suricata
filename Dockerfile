@@ -4,7 +4,7 @@ MAINTAINER Sergey Malinkin <malinkinsa@yandex.ru>
 
 RUN \
 dnf -y install epel-release dnf-plugins-core && \
-dnf config-manager --set-enabled PowerTools
+dnf config-manager --set-enabled powertools
 
 RUN \
 dnf -y update && \
@@ -77,13 +77,13 @@ cargo
 
 WORKDIR /opt
 
-RUN wget https://www.openinfosecfoundation.org/download/suricata-6.0.0.tar.gz && tar xzf suricata-6.0.0.tar.gz
+RUN wget https://www.openinfosecfoundation.org/download/suricata-6.0.1.tar.gz && tar xzf suricata-6.0.1.tar.gz
 
-WORKDIR /opt/suricata-6.0.0
+WORKDIR /opt/suricata-6.0.1
 
 RUN ./configure --prefix=/usr/ --sysconfdir=/etc/ --localstatedir=/var/ --enable-lua --enable-geoip --enable-profiling && make && make install-full
 
-RUN rm -rf /opt/suricata-6.0.0/
+RUN rm -rf /opt/suricata-6.0.1/
 
 WORKDIR /opt
 
