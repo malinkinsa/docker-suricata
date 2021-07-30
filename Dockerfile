@@ -1,22 +1,16 @@
-FROM centos:8
-
-MAINTAINER Sergey Malinkin <malinkinsa@yandex.ru>
+FROM centos:7.9.2009
 
 RUN \
-dnf -y install epel-release dnf-plugins-core && \
-dnf config-manager --set-enabled powertools
+yum -y install epel-release
 
 RUN \
-dnf -y update && \
-dnf -y install epel-release && \
-dnf -y install \
+yum -y update && \
+yum -y install \
 wget \ 
 autoconf \
 automake \
 file \
-findutils \
 hiredis \
-hyperscan \
 iproute \
 jansson \
 lua-libs \
@@ -31,6 +25,8 @@ libpcap \
 libprelude \
 logrotate \
 lz4 \
+python-devel \
+python36 \
 net-tools \
 nss \
 nss-softokn \
@@ -77,13 +73,13 @@ cargo
 
 WORKDIR /opt
 
-RUN wget https://www.openinfosecfoundation.org/download/suricata-6.0.1.tar.gz && tar xzf suricata-6.0.1.tar.gz
+RUN wget https://www.openinfosecfoundation.org/download/suricata-6.0.3.tar.gz && tar xzf suricata-6.0.3.tar.gz
 
-WORKDIR /opt/suricata-6.0.1
+WORKDIR /opt/suricata-6.0.3
 
-RUN ./configure --prefix=/usr/ --sysconfdir=/etc/ --localstatedir=/var/ --enable-lua --enable-geoip --enable-profiling && make && make install-full
+RUN ./configure --prefix=/usr/ --sysconfdir=/etc/ --localstatedir=/var/ --enable-lua --enable-profiling && make && make install-conf
 
-RUN rm -rf /opt/suricata-6.0.1/
+RUN rm -rf /opt/suricata-6.0.3/
 
 WORKDIR /opt
 
