@@ -6,6 +6,7 @@ yum -y install epel-release
 RUN \
 yum -y update && \
 yum install -y \
+wget \
 jansson-devel \
 libpcap-devel \
 libyaml-devel \
