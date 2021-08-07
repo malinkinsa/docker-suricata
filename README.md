@@ -1,14 +1,12 @@
 # Suricata
 
-![Docker Pulls](https://img.shields.io/docker/pulls/malinkinsa/suricata)
-
 - [Suricata](#suricata)
-	- [About](#about)
-	- [Build info](#build-info)
-	- [Supported tags](#supported-tags)
-	- [Usage](#usage)
-	- [Usage via docker-compose](#usage-via-docker-compose)
-	- [To-Do](#to-do)
+  - [About](#about)
+  - [Build info](#build-info)
+  - [Supported tags](#supported-tags)
+  - [Usage](#usage)
+  - [Usage via docker-compose](#usage-via-docker-compose)
+  - [To-Do](#to-do)
 
 ## About
 Suricata Docker Image based on Centos 7 image.
