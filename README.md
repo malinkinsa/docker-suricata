@@ -1,12 +1,81 @@
 # Suricata
----
+
 ![Docker Pulls](https://img.shields.io/docker/pulls/malinkinsa/suricata)
 
-Suricata Docker Image with enabled profiling.
-Packet profiling is convenient in case you would like to know how long packets take to be processed. It is a way to figure out why certain packets are being processed quicker than others, and this way a good tool for developing Suricata.
+- [Suricata](#suricata)
+	- [About](#about)
+	- [Build info](#build-info)
+	- [Supported tags](#supported-tags)
+	- [Usage](#usage)
+	- [Usage via docker-compose](#usage-via-docker-compose)
+	- [To-Do](#to-do)
+
+## About
+Suricata Docker Image based on Centos 7 image.
+
+## Build info
+<details>
+<summary>Expand</summary>
+
+```
+Suricata Configuration:
+  AF_PACKET support:                       yes
+  eBPF support:                            no
+  XDP support:                             no
+  PF_RING support:                         no
+  NFQueue support:                         no
+  NFLOG support:                           no
+  IPFW support:                            no
+  Netmap support:                          no 
+  DAG enabled:                             no
+  Napatech enabled:                        no
+  WinDivert enabled:                       no
+
+  Unix socket enabled:                     yes
+  Detection enabled:                       yes
+
+  Libmagic support:                        yes
+  libnss support:                          yes
+  libnspr support:                         yes
+  libjansson support:                      yes
+  hiredis support:                         no
+  hiredis async with libevent:             no
+  Prelude support:                         no
+  PCRE jit:                                yes
+  LUA support:                             yes
+  libluajit:                               no
+  GeoIP2 support:                          yes
+  Non-bundled htp:                         no
+  Hyperscan support:                       no
+  Libnet support:                          no
+  liblz4 support:                          yes
+  HTTP2 decompression:                     no
+
+  Rust support:                            yes
+  Rust strict mode:                        no
+  Rust compiler path:                      /usr/bin/rustc
+  Rust compiler version:                   rustc 1.53.0 (Red Hat 1.53.0-1.el7)
+  Cargo path:                              /usr/bin/cargo
+  Cargo version:                           cargo 1.53.0
+  Cargo vendor:                            yes
+
+  Python support:                          yes
+  Python path:                             /usr/bin/python3
+  Python distutils                         yes
+  Python yaml                              yes
+  Install suricatactl:                     yes
+  Install suricatasc:                      yes
+  Install suricata-update:                 yes
+
+  Profiling enabled:                       no
+  Profiling locks enabled:                 no
+
+  Plugin support (experimental):           yes
+```
+</details>
 
 ## Supported tags
-```latest``` ```6.0.1``` ```6.0.0``` ```5.0.3```
+```latest```
 
 ## Usage
 - Create volumes:
@@ -47,7 +116,7 @@ docker-compose up -d
 ```
 ---
 ## To-Do
----
 
 - [x] Add example with docker-compose;
-
+- [ ] Add version with enabled profiling;
+- [ ] Add NFQ;

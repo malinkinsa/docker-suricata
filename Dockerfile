@@ -34,11 +34,9 @@ WORKDIR /opt
 RUN wget https://www.openinfosecfoundation.org/download/suricata-6.0.3.tar.gz && tar xzf suricata-6.0.3.tar.gz
 
 WORKDIR /opt/suricata-6.0.3
-RUN ./configure --prefix=/usr/ --sysconfdir=/etc/ --localstatedir=/var/ --enable-lua --enable-geoip --enable-nfqueue && make && make install-full
+RUN ./configure --prefix=/usr/ --sysconfdir=/etc/ --localstatedir=/var/ --enable-lua --enable-geoip && make && make install-full && ldconfig && mkdir -p /var/log/suricata
 
-RUN mkdir -p /var/log/suricata
-WORKDIR /
-RUN rm -rf /opt/suricata-6.0.3/
+RUN rm -rf /opt/suricata-6.0.3/ && rm -f /opt/suricata-6.0.3.tar.gz
 
 VOLUME /etc/suricata
 VOLUME /etc/suricata/rules
