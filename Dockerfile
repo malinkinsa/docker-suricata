@@ -7,6 +7,7 @@ RUN \
 yum -y update && \
 yum install -y \
 wget \
+git \
 jansson-devel \
 libpcap-devel \
 libyaml-devel \
@@ -30,18 +31,14 @@ rustc \
 cargo
 
 WORKDIR /opt
-
 RUN wget https://www.openinfosecfoundation.org/download/suricata-6.0.3.tar.gz && tar xzf suricata-6.0.3.tar.gz
 
 WORKDIR /opt/suricata-6.0.3
-
-RUN ./configure --prefix=/usr/ --sysconfdir=/etc/ --localstatedir=/var/ --enable-lua --enable-geoip && make && make install-conf
-
-RUN rm -rf /opt/suricata-6.0.3/
-
-WORKDIR /opt
+RUN ./configure --prefix=/usr/ --sysconfdir=/etc/ --localstatedir=/var/ --enable-lua --enable-geoip --enable-nfqueue && make && make install-full
 
 RUN mkdir -p /var/log/suricata
+WORKDIR /
+RUN rm -rf /opt/suricata-6.0.3/
 
 VOLUME /etc/suricata
 VOLUME /etc/suricata/rules
