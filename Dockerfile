@@ -1,93 +1,42 @@
-FROM centos:8
-
-MAINTAINER Sergey Malinkin <malinkinsa@yandex.ru>
+FROM centos:7.9.2009
 
 RUN \
-dnf -y install epel-release dnf-plugins-core && \
-dnf config-manager --set-enabled powertools
+yum -y install epel-release
 
 RUN \
-dnf -y update && \
-dnf -y install epel-release && \
-dnf -y install \
-wget \ 
-autoconf \
-automake \
-file \
-findutils \
-hiredis \
-hyperscan \
-iproute \
-jansson \
-lua-libs \
-libyaml \
-libnfnetlink \
-libnetfilter_queue \
-libnet \
-libcap-ng \
-libevent \
-libmaxminddb \
-libpcap \
-libprelude \
-logrotate \
-lz4 \
-net-tools \
-nss \
-nss-softokn \
-pcre \
-procps-ng \
-python3 \
-python3-yaml \
-tcpdump \
-which \
-zlib \
-file \
-file-devel \
-gcc \
-gcc-c++ \
-hiredis-devel \
-hyperscan-devel \
+yum -y update && \
+yum install -y \
+wget \
+git \
 jansson-devel \
-jq \
-lua-devel \
-libtool \
-libyaml-devel \
-libnfnetlink-devel \
-libnetfilter_queue-devel \
-libnet-devel \
-libcap-ng-devel \
-libevent-devel \
-libmaxminddb-devel \
 libpcap-devel \
-libprelude-devel \
-libtool \
-lz4-devel \
-make \
-nspr-devel \
+libyaml-devel \
+lua-devel \
 nss-devel \
-nss-softokn-devel \
+nspr-devel \
+libcap-ng-devel \
+libmaxminddb-devel \
+python36 \
+python36-PyYAML \
+lz4-devel \
+pcre \
 pcre-devel \
-pkgconfig \
-python3-devel \
-python3-yaml \
-which \
+file-devel \
 zlib-devel \
-rust \
-cargo 
+libyaml \
+make \
+gcc \
+pkgconfig \
+rustc \
+cargo
 
 WORKDIR /opt
+RUN wget https://www.openinfosecfoundation.org/download/suricata-6.0.3.tar.gz && tar xzf suricata-6.0.3.tar.gz
 
-RUN wget https://www.openinfosecfoundation.org/download/suricata-6.0.1.tar.gz && tar xzf suricata-6.0.1.tar.gz
+WORKDIR /opt/suricata-6.0.3
+RUN ./configure --prefix=/usr/ --sysconfdir=/etc/ --localstatedir=/var/ --enable-lua --enable-geoip && make && make install-full && ldconfig && mkdir -p /var/log/suricata
 
-WORKDIR /opt/suricata-6.0.1
-
-RUN ./configure --prefix=/usr/ --sysconfdir=/etc/ --localstatedir=/var/ --enable-lua --enable-geoip --enable-profiling && make && make install-full
-
-RUN rm -rf /opt/suricata-6.0.1/
-
-WORKDIR /opt
-
-RUN mkdir -p /var/log/suricata
+RUN rm -rf /opt/suricata-6.0.3/ && rm -f /opt/suricata-6.0.3.tar.gz
 
 VOLUME /etc/suricata
 VOLUME /etc/suricata/rules
