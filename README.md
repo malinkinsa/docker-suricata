@@ -21,7 +21,7 @@ Suricata Configuration:
   eBPF support:                            no
   XDP support:                             no
   PF_RING support:                         no
-  NFQueue support:                         no
+  NFQueue support:                         yes
   NFLOG support:                           no
   IPFW support:                            no
   Netmap support:                          no 
