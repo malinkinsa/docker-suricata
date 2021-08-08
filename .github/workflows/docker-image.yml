@@ -9,9 +9,9 @@ jobs:
   publish_docker_images:
     runs-on: ubuntu-latest
     steps:
-    — name: Checkout
-      uses: actions/checkout@v2
-    
+    - name: Checkout
+      uses: actions/checkout@v2.3.4
+      
     - name: Docker meta
       id: meta
       uses: docker/metadata-action@v3.4.1
@@ -29,9 +29,9 @@ jobs:
          username: ${{ secrets.DOCKERHUB_USERNAME }}
          password: ${{ secrets.DOCKERHUB_TOKEN }}
      
-    — name: Build and push
-       uses: docker/build-push-action@v2.6.1
-       with:
+    - name: Build and push
+      uses: docker/build-push-action@v2.6.1
+      with:
          context: .
          tags: ${{ steps.meta.outputs.tags }}
          labels: ${{ steps.meta.outputs.labels }}
