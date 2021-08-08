@@ -16,7 +16,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v3.4.1
       with:
-        images: malinkinsa/suracata
+        images: malinkinsa/docker-suricata
         tags: |
           type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'master') }}
           type=ref,event=tag
