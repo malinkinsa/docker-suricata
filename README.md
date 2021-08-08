@@ -117,4 +117,4 @@ docker-compose up -d
 
 - [x] Add example with docker-compose;
 - [ ] Add version with enabled profiling;
-- [ ] Add NFQ;
+- [x] Add NFQ;
