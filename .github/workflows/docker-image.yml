@@ -1,0 +1,37 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  publish_docker_images:
+    runs-on: ubuntu-latest
+    steps:
+    — name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v3.4.1
+      with:
+        images: malinkinsa/suracata
+        tags: |
+          type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'master') }}
+          type=ref,event=tag
+        flavor: |
+          latest=false
+          
+    - name: Login to DockerHub
+      uses: docker/login-action@v1.10.0
+      with:
+         username: ${{ secrets.DOCKERHUB_USERNAME }}
+         password: ${{ secrets.DOCKERHUB_TOKEN }}
+     
+    — name: Build and push
+       uses: docker/build-push-action@v2.6.1
+       with:
+         context: .
+         tags: ${{ steps.meta.outputs.tags }}
+         labels: ${{ steps.meta.outputs.labels }}
