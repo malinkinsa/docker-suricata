@@ -1,4 +1,4 @@
-FROM alpine:3.14 AS builder
+FROM alpine:3.13.4 AS builder
 
 RUN apk add --no-cache \
     automake \
