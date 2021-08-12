@@ -19,6 +19,9 @@ RUN apk add --no-cache \
     libtool \
     linux-headers \
     libcap-ng-dev \
+    libmaxminddb-dev \
+    lua-dev \
+    lz4-dev \
     make \
     musl-dev \
     nss-dev \
@@ -26,6 +29,7 @@ RUN apk add --no-cache \
     python3 \
     py3-yaml \
     rust \
+    tar \
     yaml-dev \
     wget \
     zlib-dev
@@ -33,20 +37,23 @@ RUN apk add --no-cache \
 WORKDIR /opt
 
 RUN \
-    https://www.openinfosecfoundation.org/download/suricata-6.0.3.tar.gz && \
+    wget https://www.openinfosecfoundation.org/download/suricata-6.0.3.tar.gz && \
     tar xzf suricata-6.0.3.tar.gz
 
-WORKDIR /opt/suricata-6.0.3
+WORKDIR /opt/suricata-6.0.3/
 
-RUN \
-    ./configure && \
-    --disable-gccmarch-native \
-    --enable-nfqueue \
-    --enable-hiredis \
-    --prefix=/usr \
+RUN ./configure \
+    --prefix=/usr/ \
     --sysconfdir=/etc \
     --localstatedir=/var \
-    --disable-shared && \
+    --enable-geoip \
+    --disable-shared \
+    --disable-gccmarch-native \
+    --enable-lua \
+    --enable-nfqueue \
+    --enable-hiredis
+
+RUN \
     make && \
     make install-full DESTDIR=/suricata-builder && \
     rm -rf /suricata-builder/var
@@ -62,6 +69,7 @@ RUN apk add --no-cache \
     libpcap \
     libelf \
     libbpf \
+    libmaxminddb \
     libnetfilter_queue \
     libnetfilter_log \
     libmagic \
@@ -72,7 +80,10 @@ RUN apk add --no-cache \
     py3-yaml \
     shadow \
     yaml \
-    zlib
+    zlib \
+    lua \
+    lz4 \
+    lz4-libs
 
 COPY --from=builder /suricata-builder /
 
@@ -83,7 +94,6 @@ RUN \
 RUN \
     suricata-update update-sources && \
     suricata-update enable-source oisf/trafficid && \
-    suricata-update enable-source et/open && \
     suricata-update enable-source ptresearch/attackdetection && \
     suricata-update --no-test --no-reload
 
