@@ -1,54 +1,109 @@
-FROM centos:7.9.2009
+FROM alpine:3.13.4 AS builder
 
-RUN \
-yum -y install epel-release
+RUN apk add --no-cache \
+    automake \
+    autoconf \
+    cargo \
+    cbindgen \
+    elfutils-dev \
+    file-dev \
+    gcc \
+    git \
+    hiredis-dev \
+    jansson-dev \
+    libpcap-dev \
+    libelf \
+    libbpf-dev \
+    libnetfilter_queue-dev \
+    libnetfilter_log-dev \
+    libtool \
+    linux-headers \
+    libcap-ng-dev \
+    libmaxminddb-dev \
+    lua-dev \
+    lz4-dev \
+    make \
+    musl-dev \
+    nss-dev \
+    pcre-dev \
+    python3 \
+    py3-yaml \
+    rust \
+    tar \
+    yaml-dev \
+    wget \
+    zlib-dev
 
-RUN \
-yum -y update && \
-yum install -y \
-wget \
-git \
-jansson-devel \
-libpcap-devel \
-libyaml-devel \
-lua-devel \
-nss-devel \
-nspr-devel \
-libcap-ng-devel \
-libmaxminddb-devel \
-python36 \
-python36-PyYAML \
-lz4-devel \
-pcre-devel \
-file-devel \
-zlib-devel \
-libyaml \
-make \
-gcc \
-pkgconfig \
-libnetfilter_queue-devel \
-rustc \
-cargo
-
-RUN \
-yum -y clean all
 WORKDIR /opt
-RUN \
-wget https://www.openinfosecfoundation.org/download/suricata-6.0.3.tar.gz && \
-tar xzf suricata-6.0.3.tar.gz
-
-WORKDIR /opt/suricata-6.0.3
-
-RUN ./configure --prefix=/usr/ --sysconfdir=/etc/ --localstatedir=/var/ --enable-lua --enable-geoip --enable-nfqueue && \
-make && \
-make install-full
-
-RUN ldconfig
 
 RUN \
-mkdir -p /var/log/suricata && \
-rm -rf /opt/suricata-6.0.3/ && \
-rm -f /opt/suricata-6.0.3.tar.gz
+    wget https://www.openinfosecfoundation.org/download/suricata-6.0.3.tar.gz && \
+    tar xzf suricata-6.0.3.tar.gz
+
+WORKDIR /opt/suricata-6.0.3/
+
+RUN ./configure \
+    --prefix=/usr/ \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --enable-geoip \
+    --disable-shared \
+    --disable-gccmarch-native \
+    --enable-lua \
+    --enable-nfqueue \
+    --enable-hiredis
+
+RUN \
+    make && \
+    make install-full DESTDIR=/suricata-builder && \
+    rm -rf /suricata-builder/var
+
+FROM alpine:3.13.4 AS runner
+
+RUN apk add --no-cache \
+    bash \
+    hiredis \
+    jansson \
+    libcap \
+    libcap-ng \
+    libpcap \
+    libelf \
+    libbpf \
+    libmaxminddb \
+    libnetfilter_queue \
+    libnetfilter_log \
+    libmagic \
+    logrotate \
+    lua \
+    lz4 \
+    lz4-libs \
+    nss \
+    pcre \
+    python3 \
+    py3-yaml \
+    shadow \
+    yaml \
+    zlib
+
+COPY --from=builder /suricata-builder /
+
+RUN \
+    mkdir -p /var/log/suricata && \
+    mkdir -p /var/run/suricata
+
+RUN \
+    suricata-update update-sources && \
+    suricata-update enable-source oisf/trafficid && \
+    suricata-update enable-source ptresearch/attackdetection && \
+    suricata-update --no-test --no-reload
+
+RUN \
+    addgroup suricata && \
+    adduser -S -G suricata suricata && \
+    chown -R suricata:suricata /etc/suricata && \
+    chown -R suricata:suricata /var/log/suricata && \
+    chown -R suricata:suricata /var/lib/suricata && \
+    chown -R suricata:suricata /var/run/suricata
 
 VOLUME /etc/suricata
 VOLUME /etc/suricata/rules

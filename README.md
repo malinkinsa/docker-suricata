@@ -9,7 +9,7 @@
   - [To-Do](#to-do)
 
 ## About
-Suricata Docker Image based on Centos 7 image.
+Suricata Docker Image based on Alpine image.
 
 ## Build info
 <details>
@@ -36,7 +36,7 @@ Suricata Configuration:
   libnss support:                          yes
   libnspr support:                         yes
   libjansson support:                      yes
-  hiredis support:                         no
+  hiredis support:                         yes
   hiredis async with libevent:             no
   Prelude support:                         no
   PCRE jit:                                yes
@@ -52,9 +52,9 @@ Suricata Configuration:
   Rust support:                            yes
   Rust strict mode:                        no
   Rust compiler path:                      /usr/bin/rustc
-  Rust compiler version:                   rustc 1.53.0 (Red Hat 1.53.0-1.el7)
+  Rust compiler version:                   rustc 1.47.0
   Cargo path:                              /usr/bin/cargo
-  Cargo version:                           cargo 1.53.0
+  Cargo version:                           cargo 1.47.0
   Cargo vendor:                            yes
 
   Python support:                          yes
@@ -116,5 +116,6 @@ docker-compose up -d
 ## To-Do
 
 - [x] Add example with docker-compose;
-- [ ] Add version with enabled profiling;
 - [x] Add NFQ;
+- [x] Change base image to Alpine;
+- [ ] Add version with enabled profiling;
