@@ -9,7 +9,7 @@
   - [To-Do](#to-do)
 
 ## About
-Suricata Docker Image based on Centos 7 image.
+Suricata Docker Image based on Alpine image.
 
 ## Build info
 <details>
