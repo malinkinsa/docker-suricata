@@ -58,7 +58,7 @@ RUN \
     make install-full DESTDIR=/suricata-builder && \
     rm -rf /suricata-builder/var
 
-FROM alpine:3.14 AS runner
+FROM alpine:3.13.4 AS runner
 
 RUN apk add --no-cache \
     bash \
@@ -74,16 +74,16 @@ RUN apk add --no-cache \
     libnetfilter_log \
     libmagic \
     logrotate \
+    lua \
+    lz4 \
+    lz4-libs \
     nss \
     pcre \
     python3 \
     py3-yaml \
     shadow \
     yaml \
-    zlib \
-    lua \
-    lz4 \
-    lz4-libs
+    zlib
 
 COPY --from=builder /suricata-builder /
 
