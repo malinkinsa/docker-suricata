@@ -4,7 +4,9 @@ services:
   suricata:
     image: malinkinsa/suricata:latest 
     environment:
-      - CONFIG="-i eth0"
+      - CONFIG=-i eth0
+    privileged: true
     volumes:
       - ./logs:/var/log/suricata
     restart: unless-stopped
+    network_mode: "host"
